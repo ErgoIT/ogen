@@ -3,7 +3,7 @@ package json
 import (
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-	"github.com/shopspring/decimal"
+	"github.com/govalues/decimal"
 )
 
 // EncodeDecimal encodes decimal.Decimal to json.
@@ -17,7 +17,7 @@ func DecodeDecimal(d *jx.Decoder) (decimal.Decimal, error) {
 	if err != nil {
 		return decimal.Decimal{}, err
 	}
-	v, err := decimal.NewFromString(n.String())
+	v, err := decimal.Parse(n.String())
 	if err != nil {
 		return decimal.Decimal{}, errors.Wrap(err, "invalid decimal")
 	}
@@ -35,7 +35,7 @@ func DecodeStringDecimal(d *jx.Decoder) (decimal.Decimal, error) {
 	if err != nil {
 		return decimal.Decimal{}, err
 	}
-	v, err := decimal.NewFromString(s)
+	v, err := decimal.Parse(s)
 	if err != nil {
 		return decimal.Decimal{}, errors.Wrap(err, "invalid decimal string")
 	}

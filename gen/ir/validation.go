@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-	"github.com/shopspring/decimal"
+	"github.com/govalues/decimal"
 
 	"github.com/ogen-go/ogen/jsonschema"
 	"github.com/ogen-go/ogen/ogenregex"
@@ -153,7 +153,7 @@ func (v *Validators) SetFloat(schema *jsonschema.Schema) error {
 
 func (v *Validators) SetDecimal(schema *jsonschema.Schema) error {
 	if num := jx.Num(schema.MultipleOf); len(num) > 0 {
-		n, err := decimal.NewFromString(string(num))
+		n, err := decimal.Parse(string(num))
 		if err != nil {
 			return errors.Wrap(err, "parse multipleOf")
 		}
@@ -163,7 +163,7 @@ func (v *Validators) SetDecimal(schema *jsonschema.Schema) error {
 		if len(num) == 0 {
 			return nil
 		}
-		val, err := decimal.NewFromString(string(num))
+		val, err := decimal.Parse(string(num))
 		if err != nil {
 			return err
 		}

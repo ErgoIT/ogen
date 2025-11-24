@@ -2,7 +2,7 @@ package validate
 
 import (
 	"github.com/go-faster/errors"
-	"github.com/shopspring/decimal"
+	"github.com/govalues/decimal"
 )
 
 // Decimal validates decimal numbers.
@@ -73,7 +73,11 @@ func (t Decimal) validate(v decimal.Decimal) error {
 		}
 	}
 	if t.MultipleOfSet {
-		if !v.Mod(t.MultipleOf).IsZero() {
+		_, r, err := v.QuoRem(t.MultipleOf)
+		if err != nil {
+			return errors.Wrapf(err, "error during %s %% %s", v.String(), t.MultipleOf.String())
+		}
+		if !r.IsZero() {
 			return errors.Errorf("value %s is not multiple of %s", v.String(), t.MultipleOf.String())
 		}
 	}

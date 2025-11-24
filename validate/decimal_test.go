@@ -3,7 +3,7 @@ package validate
 import (
 	"testing"
 
-	"github.com/shopspring/decimal"
+	"github.com/govalues/decimal"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -21,48 +21,48 @@ func TestDecimal_Setters(t *testing.T) {
 	}{
 		{
 			do: func(i *Decimal) {
-				i.SetMultipleOf(decimal.NewFromInt(10))
+				i.SetMultipleOf(decimal.Ten)
 			},
 			expected: Decimal{
-				MultipleOf:    decimal.NewFromInt(10),
+				MultipleOf:    decimal.Ten,
 				MultipleOfSet: true,
 			},
 		},
 		{
 			do: func(i *Decimal) {
-				i.SetExclusiveMaximum(decimal.NewFromInt(10))
+				i.SetExclusiveMaximum(decimal.Ten)
 			},
 			expected: Decimal{
-				Max:          decimal.NewFromInt(10),
+				Max:          decimal.Ten,
 				MaxExclusive: true,
 				MaxSet:       true,
 			},
 		},
 		{
 			do: func(i *Decimal) {
-				i.SetExclusiveMinimum(decimal.NewFromInt(10))
+				i.SetExclusiveMinimum(decimal.Ten)
 			},
 			expected: Decimal{
-				Min:          decimal.NewFromInt(10),
+				Min:          decimal.Ten,
 				MinExclusive: true,
 				MinSet:       true,
 			},
 		},
 		{
 			do: func(i *Decimal) {
-				i.SetMaximum(decimal.NewFromInt(10))
+				i.SetMaximum(decimal.Ten)
 			},
 			expected: Decimal{
-				Max:    decimal.NewFromInt(10),
+				Max:    decimal.Ten,
 				MaxSet: true,
 			},
 		},
 		{
 			do: func(i *Decimal) {
-				i.SetMinimum(decimal.NewFromInt(10))
+				i.SetMinimum(decimal.Ten)
 			},
 			expected: Decimal{
-				Min:    decimal.NewFromInt(10),
+				Min:    decimal.Ten,
 				MinSet: true,
 			},
 		},
@@ -83,50 +83,50 @@ func TestDecimal_Validate(t *testing.T) {
 		{Name: "Zero", Valid: true},
 		{
 			Name:      "MaxOk",
-			Validator: Decimal{Max: decimal.NewFromInt(10), MaxSet: true},
-			Value:     decimal.NewFromInt(10),
+			Validator: Decimal{Max: decimal.Ten, MaxSet: true},
+			Value:     decimal.Ten,
 			Valid:     true,
 		},
 		{
 			Name:      "MaxErr",
-			Validator: Decimal{Max: decimal.NewFromInt(10), MaxSet: true},
-			Value:     decimal.NewFromInt(11),
+			Validator: Decimal{Max: decimal.Ten, MaxSet: true},
+			Value:     decimal.MustNew(11, 0),
 			Valid:     false,
 		},
 		{
 			Name:      "MaxExclErr",
-			Validator: Decimal{Max: decimal.NewFromInt(10), MaxSet: true, MaxExclusive: true},
-			Value:     decimal.NewFromInt(10),
+			Validator: Decimal{Max: decimal.Ten, MaxSet: true, MaxExclusive: true},
+			Value:     decimal.Ten,
 			Valid:     false,
 		},
 		{
 			Name:      "MinOk",
-			Validator: Decimal{Min: decimal.NewFromInt(10), MinSet: true},
-			Value:     decimal.NewFromInt(10),
+			Validator: Decimal{Min: decimal.Ten, MinSet: true},
+			Value:     decimal.Ten,
 			Valid:     true,
 		},
 		{
 			Name:      "MinErr",
-			Validator: Decimal{Min: decimal.NewFromInt(10), MinSet: true},
-			Value:     decimal.NewFromInt(9),
+			Validator: Decimal{Min: decimal.Ten, MinSet: true},
+			Value:     decimal.MustNew(9, 0),
 			Valid:     false,
 		},
 		{
 			Name:      "MinExclErr",
-			Validator: Decimal{Min: decimal.NewFromInt(10), MinSet: true, MinExclusive: true},
-			Value:     decimal.NewFromInt(10),
+			Validator: Decimal{Min: decimal.Ten, MinSet: true, MinExclusive: true},
+			Value:     decimal.Ten,
 			Valid:     false,
 		},
 		{
 			Name:      "MultipleOfOk",
-			Validator: Decimal{MultipleOf: decimal.NewFromInt(10), MultipleOfSet: true},
-			Value:     decimal.NewFromInt(20),
+			Validator: Decimal{MultipleOf: decimal.Ten, MultipleOfSet: true},
+			Value:     decimal.MustNew(20, 0),
 			Valid:     true,
 		},
 		{
 			Name:      "MultipleOfErr",
-			Validator: Decimal{MultipleOf: decimal.NewFromInt(10), MultipleOfSet: true},
-			Value:     decimal.NewFromInt(13),
+			Validator: Decimal{MultipleOf: decimal.Ten, MultipleOfSet: true},
+			Value:     decimal.MustNew(13, 0),
 			Valid:     false,
 		},
 	} {

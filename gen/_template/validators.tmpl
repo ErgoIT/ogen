@@ -166,14 +166,14 @@
 		{{- $v := $va.Decimal }}
 		if err := (validate.Decimal{ {{ if $v.Set }}
 			MinSet:       {{ $v.MinSet }},
-			Min:          decimal.RequireFromString({{ quote $v.Min.String }}),
+			Min:          decimal.MustParse({{ quote $v.Min.String }}),
 			MaxSet:       {{ $v.MaxSet }},
-			Max:          decimal.RequireFromString({{ quote $v.Max.String }}),
+			Max:          decimal.MustParse({{ quote $v.Max.String }}),
 			MinExclusive: {{ $v.MinExclusive }},
 			MaxExclusive: {{ $v.MaxExclusive }},
 			MultipleOfSet:{{ $v.MultipleOfSet }},
 			{{- if $v.MultipleOfSet }}
-			MultipleOf: decimal.RequireFromString({{ quote $v.MultipleOf.String }}),
+			MultipleOf: decimal.MustParse({{ quote $v.MultipleOf.String }}),
 			{{- else }}
 			MultipleOf: decimal.Zero,
 			{{- end }}

@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/go-faster/jx"
-	"github.com/shopspring/decimal"
+	"github.com/govalues/decimal"
 	"github.com/stretchr/testify/require"
 )
 
@@ -16,12 +16,12 @@ func TestDecimal(t *testing.T) {
 	}{
 		{
 			name:    "Integer",
-			value:   decimal.NewFromInt(123),
+			value:   decimal.MustNew(123, 0),
 			wantStr: "123",
 		},
 		{
 			name:    "Float",
-			value:   decimal.NewFromFloat(123.456),
+			value:   decimal.MustNew(123456, 3),
 			wantStr: "123.456",
 		},
 		{
@@ -31,7 +31,7 @@ func TestDecimal(t *testing.T) {
 		},
 		{
 			name:    "Negative",
-			value:   decimal.NewFromFloat(-123.456),
+			value:   decimal.MustNew(-123456, 3),
 			wantStr: "-123.456",
 		},
 	}

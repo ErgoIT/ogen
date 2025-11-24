@@ -13,7 +13,7 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
-	"github.com/shopspring/decimal"
+	"github.com/govalues/decimal"
 
 	"github.com/ogen-go/ogen/json"
 )
