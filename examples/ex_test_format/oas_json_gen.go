@@ -13,9 +13,9 @@ import (
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
+	"github.com/govalues/decimal"
 	"github.com/ogen-go/ogen/json"
 	"github.com/ogen-go/ogen/validate"
-	"github.com/shopspring/decimal"
 )
 
 // Encode implements json.Marshaler.

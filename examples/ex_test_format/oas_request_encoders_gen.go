@@ -12,9 +12,9 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
+	"github.com/govalues/decimal"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/json"
-	"github.com/shopspring/decimal"
 )
 
 func encodeTestQueryParameterRequest(

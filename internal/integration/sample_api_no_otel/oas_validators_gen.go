@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/go-faster/errors"
+	"github.com/govalues/decimal"
 	"github.com/ogen-go/ogen/validate"
-	"github.com/shopspring/decimal"
 )
 
 func (s *ArrayTest) Validate() error {
@@ -1210,9 +1210,9 @@ func (s *TestDecimalValidation) Validate() error {
 	if err := func() error {
 		if err := (validate.Decimal{
 			MinSet:        true,
-			Min:           decimal.RequireFromString("1.5"),
+			Min:           decimal.MustParse("1.5"),
 			MaxSet:        true,
-			Max:           decimal.RequireFromString("2"),
+			Max:           decimal.MustParse("2"),
 			MinExclusive:  false,
 			MaxExclusive:  false,
 			MultipleOfSet: false,
@@ -1230,13 +1230,13 @@ func (s *TestDecimalValidation) Validate() error {
 	if err := func() error {
 		if err := (validate.Decimal{
 			MinSet:        false,
-			Min:           decimal.RequireFromString("0"),
+			Min:           decimal.MustParse("0"),
 			MaxSet:        false,
-			Max:           decimal.RequireFromString("0"),
+			Max:           decimal.MustParse("0"),
 			MinExclusive:  false,
 			MaxExclusive:  false,
 			MultipleOfSet: true,
-			MultipleOf:    decimal.RequireFromString("5"),
+			MultipleOf:    decimal.MustParse("5"),
 		}).Validate(s.MultipleOf); err != nil {
 			return errors.Wrap(err, "decimal")
 		}

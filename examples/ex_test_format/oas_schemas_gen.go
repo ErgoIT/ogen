@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
-	"github.com/shopspring/decimal"
+	"github.com/govalues/decimal"
 )
 
 // Error Response Schema.

@@ -12,12 +12,12 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/google/uuid"
+	"github.com/govalues/decimal"
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/uri"
 	"github.com/ogen-go/ogen/validate"
-	"github.com/shopspring/decimal"
 )
 
 // TestQueryParameterParams is parameters of test_query_parameter operation.

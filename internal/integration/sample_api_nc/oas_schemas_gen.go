@@ -11,7 +11,7 @@ import (
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
-	"github.com/shopspring/decimal"
+	"github.com/govalues/decimal"
 )
 
 type APIKey struct {
