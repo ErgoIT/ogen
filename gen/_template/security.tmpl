@@ -188,6 +188,63 @@ func (s *Client) security{{ $s.Type.Name }}(ctx context.Context, operationName O
 	{{- end }}
 	return nil
 }
+
+{{- if $.WebhookServerEnabled }}
+func (ws *WebhookServer) security{{ $s.Type.Name }}(ctx context.Context, operationName OperationName, req *http.Request) (context.Context, bool, error) {
+	{{- if $s.Format.IsCustomSecurity }}
+		{{- if $.SecurityReentrantEnabled }}
+		if err := ws.sec.{{ $s.Type.Name }}(ctx, operationName, req, s); err != nil {
+		{{- else }}
+		if err := ws.sec.{{ $s.Type.Name }}(ctx, operationName, req); err != nil {
+		{{- end }}
+			return ctx, false, errors.Wrap(err, {{ printf "security source %q" $s.Type.Name | quote }})
+		}
+	{{- else }}
+		{{- if $.SecurityReentrantEnabled }}
+		t, err := ws.sec.{{ $s.Type.Name }}(ctx, operationName, s)
+		{{- else }}
+		t, err := ws.sec.{{ $s.Type.Name }}(ctx, operationName)
+		{{- end }}
+		if err != nil {
+			return ctx, false, errors.Wrap(err, {{ printf "security source %q" $s.Type.Name | quote }})
+		}
+		{{- if $s.Format.IsAPIKeySecurity }}
+			{{- if $s.Kind.IsHeader }}
+			if req.Header.Get({{ quote $s.ParameterName }}) != t.APIKey {
+				return ctx, false, nil
+			}
+			{{- else if $s.Kind.IsQuery }}
+			if req.URL.Query().Get({{ quote $s.ParameterName }}) != t.APIKey {
+				return ctx, false, nil
+			}
+			{{- else if $s.Kind.IsCookie }}
+			if cookie, err := req.Cookie({{ quote $s.ParameterName }}); err != nil {
+				return ctx, false, errors.Wrap(err, {{ printf "security kind %q" $s.Kind | quote }})
+			} else if cookie.Value != t.APIKey {
+				return ctx, false, nil
+			}
+			{{- else }}
+				{{ errorf "unexpected security %q:%q" $s.Kind $s.Format }}
+			{{- end }}
+		{{- else if $s.Format.IsBasicHTTPSecurity }}
+			if req.Header.Get("Authorization") != "Basic "+base64.StdEncoding.EncodeToString([]byte(t.Username+":"+t.Password)) {
+				return ctx, false, nil
+			}
+		{{- else if $s.Format.IsBearerSecurity }}
+			if req.Header.Get("Authorization") != "Bearer "+t.Token {
+				return ctx, false, nil
+			}
+		{{- else if $s.Format.IsOAuth2Security }}
+			if req.Header.Get("Authorization") != "Bearer "+t.Token {
+				return ctx, false, nil
+			}
+		{{- else }}
+			{{ errorf "unexpected security %q:%q" $s.Kind $s.Format }}
+		{{- end }}
+	{{- end }}
+	return ctx, true, nil
+}
+{{- end }}
 {{- end }}
 {{- end }}
 

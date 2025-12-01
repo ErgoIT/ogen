@@ -118,18 +118,24 @@ type WebhookHandler interface {
 // WebhookServer implements http server based on OpenAPI v3 specification and
 // calls WebhookHandler to handle requests.
 type WebhookServer struct {
-	h WebhookHandler
+	h   WebhookHandler
+	{{- if $.Securities }}
+	sec SecuritySource
+	{{- end }}
 	baseServer
 }
 
 // NewWebhookServer creates new WebhookServer.
-func NewWebhookServer(h WebhookHandler, opts ...ServerOption) (*WebhookServer, error) {
+func NewWebhookServer(h WebhookHandler, {{- if $.Securities }}sec SecuritySource,{{- end }} opts ...ServerOption) (*WebhookServer, error) {
 	s, err := newServerConfig(opts...).baseServer()
 	if err != nil {
 		return nil, err
 	}
 	return &WebhookServer{
 		h: h,
+		{{- if $.Securities }}
+		sec: sec,
+		{{- end }}
 		baseServer: s,
 	}, nil
 }
